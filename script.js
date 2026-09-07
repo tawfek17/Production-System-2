@@ -1,16 +1,27 @@
 const STORAGE_KEY = "production_system_v6";
 const FIREBASE_PATH = "productionSystem";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCWi-cGyfJaTuThEbsmMITNbHBHh7xL8xo",
-    authDomain: "production-b631e.firebaseapp.com",
-    databaseURL: "https://production-b631e-default-rtdb.firebaseio.com",
-    projectId: "production-b631e",
-    storageBucket: "production-b631e.firebasestorage.app",
-    messagingSenderId: "725854628123",
-    appId: "1:725854628123:web:20aade8f46ef9c24f3cbbe",
-    measurementId: "G-F9Z0SLKX18"
+  apiKey: "AIzaSyAPMA_mU7ZgDQWFa-Z9RXdDKb1hWcSTU7I",
+  authDomain: "production-system-d7fb1.firebaseapp.com",
+  projectId: "production-system-d7fb1",
+  storageBucket: "production-system-d7fb1.firebasestorage.app",
+  messagingSenderId: "498087576836",
+  appId: "1:498087576836:web:7a92c848408dcdc6173c51",
+  measurementId: "G-G5X0C3HPZ5"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 
 const defaultState = {
