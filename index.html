@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="loginPage" class="login-page">
+    <div class="login-card">
+        <div class="login-logo">PRODUCTION</div>
+        <h2>Production Management System</h2>
+        <p>تسجيل الدخول للنظام</p>
+
+        <form id="loginForm">
+            <input id="loginUsername" type="text" placeholder="Username" required>
+            <input id="loginPassword" type="password" placeholder="Password" required>
+
+            <select id="loginDepartment" required>
+                <option value="">اختار القسم</option>
+                <option value="admin">Admin</option>
+                <option value="assembly">Assembly</option>
+                <option value="packing">Packing</option>
+            </select>
+
+            <button type="submit">Login</button>
+            <div id="loginError" class="login-error"></div>
+        </form>
+    </div>
+</div>
+
+
+<div id="appPage" class="app hidden">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div>PRODUCTION</div>
+            <small>Management System</small>
+        </div>
+
+        <div class="user-box">
+            <strong id="currentUsername"></strong>
+            <span id="currentDepartment"></span>
+        </div>
+
+        <nav>
+            <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+            <button class="nav-btn" data-page="production">Production</button>
+            <button class="nav-btn admin-only" data-page="orders">Orders</button>
+            <button class="nav-btn admin-only" data-page="leaders">Leaders</button>
+            <button class="nav-btn admin-only" data-page="records">All Records</button>
+        </nav>
+
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <section id="dashboardPage">
+
+            <div class="page-header">
+                <div>
+                    <h1 id="dashboardTitle">Dashboard</h1>
+                    <p>متابعة الإنتاج والإحصائيات</p>
+                </div>
+            </div>
+
+
+            <div id="adminDashboard">
+
+                <div class="kpi-grid">
+
+                    <div class="kpi-card">
+                        <span>Total Orders</span>
+                        <strong id="adminTotalOrders">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Assembly Today</span>
+                        <strong id="adminAssemblyToday">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Packing Today</span>
+                        <strong id="adminPackingToday">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Total Production</span>
+                        <strong id="adminTotalProduction">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="department-grid">
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Assembly Statistics</h2>
+                                <p>إحصائيات قسم Assembly</p>
+                            </div>
+
+                            <input type="date" id="adminAssemblyDate">
+                        </div>
+
+                        <div id="adminAssemblyStats" class="stats-grid"></div>
+
+                        <div class="chart-container">
+                            <canvas id="assemblyChart"></canvas>
+                        </div>
+                    </div>
+
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Packing Statistics</h2>
+                                <p>إحصائيات قسم Packing</p>
+                            </div>
+
+                            <input type="date" id="adminPackingDate">
+                        </div>
+
+                        <div id="adminPackingStats" class="stats-grid"></div>
+
+                        <div class="chart-container">
+                            <canvas id="packingChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Order Progress</h2>
+                            <p>متابعة كل Order</p>
+                        </div>
+                    </div>
+
+                    <div id="adminOrderProgress" class="order-progress-grid"></div>
+                </div>
+
+            </div>
+
+
+            <div id="leaderDashboard">
+
+                <div class="leader-department-title">
+                    <h2 id="leaderDepartmentTitle"></h2>
+                    <span>Department Dashboard</span>
+                </div>
+
+
+                <div class="kpi-grid">
+
+                    <div class="kpi-card">
+                        <span>Today's Target</span>
+                        <strong id="leaderTodayTarget">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Today's Production</span>
+                        <strong id="leaderTodayProduction">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Today's Achievement</span>
+                        <strong id="leaderTodayAchievement">0%</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Total Target</span>
+                        <strong id="leaderTotalTarget">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Total Production</span>
+                        <strong id="leaderTotalProduction">0</strong>
+                    </div>
+
+                    <div class="kpi-card">
+                        <span>Total Achievement</span>
+                        <strong id="leaderAchievement">0%</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2 id="leaderStatsTitle">Model Statistics</h2>
+                            <p>إحصائيات كل موديل بشكل منفصل</p>
+                        </div>
+
+                        <input type="date" id="leaderStatsDate">
+
+                    </div>
+
+                    <div id="leaderModernStats" class="leader-model-grid"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Daily Productivity</h2>
+                            <p>الإنتاجية اليومية للقسم</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-container large-chart">
+                        <canvas id="leaderChart"></canvas>
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Order Progress</h2>
+                            <p>متابعة الـ Orders الخاصة بالقسم</p>
+                        </div>
+                    </div>
+
+                    <div id="leaderOrderProgress" class="order-progress-grid"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="productionPage" class="page-section hidden">
+
+            <div class="page-header">
+                <div>
+                    <h1>Production</h1>
+                    <p>تسجيل الإنتاج اليومي</p>
+                </div>
+            </div>
+
+
+            <div class="panel">
+
+                <form id="productionForm" class="form-grid">
+
+                    <input type="hidden" id="productionId">
+
+                    <div>
+                        <label>Date</label>
+                        <input type="date" id="productionDate" required>
+                    </div>
+
+                    <div>
+                        <label>Order</label>
+                        <select id="productionOrder" required></select>
+                    </div>
+
+                    <div>
+                        <label>Model</label>
+                        <input type="text" id="productionModel" readonly>
+                    </div>
+
+                    <div>
+                        <label>Color</label>
+                        <input type="text" id="productionColor" readonly>
+                    </div>
+
+                    <div>
+                        <label>Quantity</label>
+                        <input type="number" id="productionQuantity" min="1" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">Save Production</button>
+
+                        <button type="button" id="cancelEditBtn" class="secondary-btn hidden">
+                            Cancel
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Production Records</h2>
+                    <input type="date" id="productionFilterDate">
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Department</th>
+                                <th>Order</th>
+                                <th>Model</th>
+                                <th>Color</th>
+                                <th>Quantity</th>
+                                <th>Leader</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="myProductionTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="ordersPage" class="page-section hidden">
+
+            <div class="page-header">
+                <div>
+                    <h1>Orders</h1>
+                    <p>إدارة الـ Orders والـ Targets</p>
+                </div>
+            </div>
+
+
+            <div class="panel">
+
+                <form id="orderForm" class="form-grid">
+
+                    <div>
+                        <label>Order Number</label>
+                        <input type="text" id="orderNumber" required>
+                    </div>
+
+                    <div>
+                        <label>Model</label>
+                        <input type="text" id="orderModel" required>
+                    </div>
+
+                    <div>
+                        <label>Color</label>
+                        <input type="text" id="orderColor" required>
+                    </div>
+
+                    <div>
+                        <label>Total Target</label>
+                        <input type="number" id="orderTarget" min="1" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">
+                            Add Order
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Orders List</h2>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Order</th>
+                                <th>Color</th>
+                                <th>Target</th>
+                                <th>Assembly</th>
+                                <th>Packing</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="ordersTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="leadersPage" class="page-section hidden">
+
+            <div class="page-header">
+                <div>
+                    <h1>Leaders</h1>
+                    <p>إدارة حسابات الليدرز</p>
+                </div>
+            </div>
+
+
+            <div class="panel">
+
+                <form id="leaderForm" class="form-grid">
+
+                    <div>
+                        <label>Username</label>
+                        <input type="text" id="leaderUsername" required>
+                    </div>
+
+                    <div>
+                        <label>Password</label>
+                        <input type="password" id="leaderPassword" required>
+                    </div>
+
+                    <div>
+                        <label>Department</label>
+
+                        <select id="leaderDepartment" required>
+                            <option value="assembly">Assembly</option>
+                            <option value="packing">Packing</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary-btn">
+                            Create Leader
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Department</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="leadersTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="recordsPage" class="page-section hidden">
+
+            <div class="page-header">
+                <div>
+                    <h1>All Production Records</h1>
+                    <p>كل سجلات الإنتاج</p>
+                </div>
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h2>Records</h2>
+                    <input type="date" id="adminRecordsDate">
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Department</th>
+                                <th>Leader</th>
+                                <th>Order</th>
+                                <th>Model</th>
+                                <th>Color</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recordsTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
